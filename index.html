@@ -5,121 +5,204 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	<link rel="shortcut icon" type="image/x-icon" href="http://envoymails.com/images/logo_icon_new.png"/>
-	<!--<script type="text/javascript" src="./jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="./jquery-ui.min.js"></script>-->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<link rel="shortcut icon" type="image/x-icon" href="/images/logo_icon_new.png"/>
 	
+	<script type="text/javascript" src="/assets/libs/jquery-1.12.4/jquery.min.js"></script>
+	<!--
+    <script type="text/javascript" src="./jquery-ui.min.js"></script>
+	-->
+	<!--
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	-->
 	
 	<script type="text/javascript">
-        
-		$(document).ready( function() {
+		
+		var doc_load = 0, preview_load = 0;
+	
+		function load_preview(){
 			
-			function load_preview(){
-				$.ajax({
-					url: "template1.html",
-					cache: false,
-					success: function( data ){
-					
-						var live_preview = document.getElementById('live-preview' )||$('#live-preview' )[0],
-						previewdoc = live_preview.contentWindow.document || view.contentDocument;
-						//previewwin = previewdoc.defaultView,
-						//previewbody = previewdoc.body;
+			$.ajax({
+				url: "template1.html",
+				cache: false,
+				success: function( data ){
+				
+					var live_preview = document.getElementById('live-preview' )||$('#live-preview' )[0],
+					previewdoc = live_preview.contentWindow.document || view.contentDocument;
+					//previewwin = previewdoc.defaultView,
+					//previewbody = previewdoc.body;
 
-						previewdoc.open();
-						previewdoc.write( data );
-						previewdoc.close();
-						
-						setTimeout( function() { preview(); }, 200 );
+					previewdoc.open();
+					previewdoc.write( data );
+					previewdoc.close();
 					
-					},
-					complete: function(){
-						$('.loading_bar').addClass('hide');
-					}
-				});
+					setTimeout( function() { preview(); }, 200 );
+				
+				},
+				complete: function(){
+					$('.loading_bar').addClass('hide');
+				}
+			});
+		
+		}
+		
+		function preview(){
 			
-			}
+			/*
+			var logoslink = $('input[name="logoslink"]').val();
+			var logolink = $('input[name="logolink"]').val();
+			var tltxt = $('input[name="tltxt"]').val();
+			var headtxt = $('input[name="headtxt"]').val();
+			var btntxt = $('input[name="btntxt"]').val();
+			var btnlink = $('input[name="btnlink"]').val();
+			var p1txt = $('textarea[name="p1txt"]').val();
+			var p2txt = $('textarea[name="p2txt"]').val();
+			var blogoslink = $('input[name="blogoslink"]').val();
+			var blogolink = $('input[name="blogolink"]').val();
 			
-			function preview(){
+			var preview = document.getElementById('live-preview' ),
+			previewdoc = preview.contentWindow.document || view.contentDocument;
+			//previewwin = previewdoc.defaultView,
+			//previewbody = previewdoc.body;
+			//console.log( previewdoc );
+			//var markup = previewdoc.documentElement.innerHTML;
 			
-				var logoslink = $('input[name="logoslink"]').val();
-				var logolink = $('input[name="logolink"]').val();
-				var tltxt = $('input[name="tltxt"]').val();
-				var headtxt = $('input[name="headtxt"]').val();
-				var btntxt = $('input[name="btntxt"]').val();
-				var btnlink = $('input[name="btnlink"]').val();
-				var p1txt = $('textarea[name="p1txt"]').val();
-				var p2txt = $('textarea[name="p2txt"]').val();
-				var blogoslink = $('input[name="blogoslink"]').val();
-				var blogolink = $('input[name="blogolink"]').val();
-				
-				var preview = document.getElementById('live-preview' )||$('#live-preview' )[0],
-				previewdoc = preview.contentWindow.document || view.contentDocument;
-				//previewwin = previewdoc.defaultView,
-				//previewbody = previewdoc.body;
-				//console.log( previewdoc );
-				//var markup = previewdoc.documentElement.innerHTML;
-				
-				var link = 'http://envoymails.com/email-intercom-basic.php?logoslink='+encodeURIComponent(logoslink)+'&logolink='+encodeURIComponent(logolink)+'&tltxt='+encodeURIComponent(tltxt)+'&headtxt='+encodeURIComponent(headtxt)+'&btntxt='+encodeURIComponent(btntxt)+'&btnlink='+encodeURIComponent(btnlink)+'&p1txt='+encodeURIComponent(p1txt)+'&p2txt='+encodeURIComponent(p2txt)+'&blogoslink='+encodeURIComponent(blogoslink)+'&blogolink='+encodeURIComponent(blogolink);
-				
-				if( previewdoc.getElementById('logoslink') ) previewdoc.getElementById('logoslink').src = logoslink;
-				if( previewdoc.getElementById('logolink') ) previewdoc.getElementById('logolink').href = logolink;
-				if( previewdoc.getElementById('tltxt') ) previewdoc.getElementById('tltxt').innerHTML = tltxt;
-				if( previewdoc.getElementById('headtxt') ) previewdoc.getElementById('headtxt').innerHTML = headtxt;
-				if( previewdoc.getElementById('btntxt') ) previewdoc.getElementById('btntxt').innerHTML = btntxt;
-				if( previewdoc.getElementById('btnlink') ) previewdoc.getElementById('btnlink').href = btnlink;
-				if( previewdoc.getElementById('ptxt') ) previewdoc.getElementById('ptxt').innerHTML = p1txt + '<br/><br/>' + p2txt;
-				if( previewdoc.getElementById('blogoslink') ) previewdoc.getElementById('blogoslink').src = blogoslink;
-				if( previewdoc.getElementById('blogolink') ) previewdoc.getElementById('blogolink').href = blogolink;
-				if( previewdoc.getElementById('hero_link') ) previewdoc.getElementById('hero_link').href = link;
-				
-			}
+			var link = 'http://envoymails.com/email-intercom-basic.php?logoslink='+encodeURIComponent(logoslink)+'&logolink='+encodeURIComponent(logolink)+'&tltxt='+encodeURIComponent(tltxt)+'&headtxt='+encodeURIComponent(headtxt)+'&btntxt='+encodeURIComponent(btntxt)+'&btnlink='+encodeURIComponent(btnlink)+'&p1txt='+encodeURIComponent(p1txt)+'&p2txt='+encodeURIComponent(p2txt)+'&blogoslink='+encodeURIComponent(blogoslink)+'&blogolink='+encodeURIComponent(blogolink);
 			
+			if( previewdoc.getElementById('logoslink') ) previewdoc.getElementById('logoslink').src = logoslink;
+			if( previewdoc.getElementById('logolink') ) previewdoc.getElementById('logolink').href = logolink;
+			if( previewdoc.getElementById('tltxt') ) previewdoc.getElementById('tltxt').innerHTML = tltxt;
+			if( previewdoc.getElementById('headtxt') ) previewdoc.getElementById('headtxt').innerHTML = headtxt;
+			if( previewdoc.getElementById('btntxt') ) previewdoc.getElementById('btntxt').innerHTML = btntxt;
+			if( previewdoc.getElementById('btnlink') ) previewdoc.getElementById('btnlink').href = btnlink;
+			if( previewdoc.getElementById('ptxt') ) previewdoc.getElementById('ptxt').innerHTML = p1txt + '<br/><br/>' + p2txt;
+			if( previewdoc.getElementById('blogoslink') ) previewdoc.getElementById('blogoslink').src = blogoslink;
+			if( previewdoc.getElementById('blogolink') ) previewdoc.getElementById('blogolink').href = blogolink;
+			if( previewdoc.getElementById('hero_link') ) previewdoc.getElementById('hero_link').href = link;
+			*/
 			
-			function download_html(){
+			$('[data-preview-target]').each(function(){
 				
-				var filename = "templatehtml.html";
+				var val = $(this).val() || '';
+				var preview_target = $(this).attr('data-preview-target');
+				var preview_content = $(this).attr('data-target-content');
+				preview_content = preview_content.replace(/^\s+|\s+$/gm,'');
 				
-				var preview = document.getElementById('live-preview' ),
-				previewdoc = preview.contentWindow.document || preview.contentDocument;			
-				
-				var html = "";
-				let xml = new XMLSerializer();
-				for ( var n of previewdoc.childNodes ) {
-					if ( n.nodeType == Node.ELEMENT_NODE ) {
-						html += n.outerHTML + "\n";
-					} else {
-						html += xml.serializeToString(n) + "\n";
-					}
+				if( preview_content == null || preview_content =='' ){
+					preview_content = 'innerHTML';
 				}
 				
-				var element = document.createElement('a');
-				element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(html));
-				element.setAttribute('download', filename);
+				var preview = document.getElementById('live-preview' ),
+				previewdoc = preview.contentWindow.document || preview.contentDocument;
 				
-				element.style.display = 'none';
-				document.body.appendChild(element);
+				//console.log( 'HTML:' + $( preview ).find(preview_target).html() );
+				//console.log( 'HTML:' + $( previewdoc ).find(preview_target).html() );
 				
-				element.click();
+				//console.log( preview_target );
+				//console.log( preview_target );
+				//console.log( previewdoc );
+				//console.log( previewdoc.getElementById(preview_target) );
 				
-				document.body.removeChild(element);
+				if( preview_target != '' && previewdoc.querySelectorAll(preview_target).length ){
 				
-			}
+					//console.log( 'Success-P' + preview_target );
+					
+					if ( preview_content.toLowerCase() =='html' || preview_content.toLowerCase() == 'innerhtml' ){
+					
+						//previewdoc.getElementById(preview_target).innerHTML = val;
+						$(previewdoc).find(preview_target).html(val);
+					
+					}else if( preview_content.toLowerCase() == 'textContent' || preview_content.toLowerCase() == 'text' || preview_content.toLowerCase() == 'innertext' ){
+					
+						//previewdoc.getElementById(preview_target).textContent = val;
+						$(previewdoc).find(preview_target).text(val);
+					
+					}else if( typeof $(previewdoc).find(preview_target).attr(preview_content) != undefined && $(previewdoc).find(preview_target).attr(preview_content) !== false ){
+						
+						//previewdoc.getElementById(preview_target).setAttribute( preview_content, val );
+						$(previewdoc).find(preview_target).attr(preview_content,val);
+						
+					}
+					
+					//$(previewdoc).find(preview_target).css( 'border', '2px solid red;' );
+					
+				}// else {console.log( 'Fail-P:' + preview_target );}
 			
-			
-			
-			
-			$('#live-preview').ready( function() {
-				setTimeout( function() { preview(); }, 200 );
-				$('.loading_bar').addClass('hide');
 			});
 			
+		}
+		
+		
+		function download_html(){
+			
+			var filename = "templatehtml.html";
+			
+			var preview = document.getElementById('live-preview' ),
+			previewdoc = preview.contentWindow.document || preview.contentDocument;			
+			
+			var html = "";
+			let xml = new XMLSerializer();
+			for ( var n of previewdoc.childNodes ) {
+				if ( n.nodeType == Node.ELEMENT_NODE ) {
+					html += n.outerHTML + "\n";
+				} else {
+					html += xml.serializeToString(n) + "\n";
+				}
+			}
+			
+			var element = document.createElement('a');
+			element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(html));
+			element.setAttribute('download', filename);
+			
+			element.style.display = 'none';
+			document.body.appendChild(element);
+			
+			element.click();
+			
+			document.body.removeChild(element);
+			
+		}
+		
+	
+		$(document).ready( function() {
+			
+			/*
 			$('.form_input').on('keyup change paste', function(e){
 				
 				preview();
 				
 			});
+			*/
 			
+			$('[data-preview-target]').on('keyup change paste', function(e){
+				
+				preview();
+				
+			});
+			
+			$('[data-preview-target]').on('focus', function(e){
+				
+				var preview_target = $(this).attr('data-preview-target');
+				
+				var preview = document.getElementById('live-preview' ),
+				previewdoc = preview.contentWindow.document || preview.contentDocument,
+				previewwin = previewdoc.defaultView;
+				
+				if( preview_target != '' && previewdoc.querySelectorAll(preview_target).length ){
+				
+					var scrollTo = $(previewdoc).find(preview_target).offset().top;
+					
+					var  scrollDevi = 400;
+					
+					if ( scrollDevi > scrollTo ){ scrollTo = scrollTo-scrollDevi; }
+					
+					$( previewdoc.documentElement, previewdoc.body).animate({
+						scrollTop: $(previewdoc).find(preview_target).offset().top
+					},
+					'1000');
+				
+				} else{ alert(0); }
+				
+			});
 			
 			$('.action_button').on('click', function(e){
 				
@@ -128,12 +211,36 @@
 				
 			});
 			
+			doc_load = 1;
 			
         });
 		
+		$('#live-preview').ready( function() {
+			setTimeout( function() { preview(); }, 200 );
+			$('.loading_bar').addClass('hide');
+			preview_load = 1;
+		});
+		
+		
+		
+		// Time Control
+		var intval = setInterval(load_preview, 10);
+		
+		function load_preview() {
+		
+			if ( doc_load == 1 && preview_load == 1 ) {
+				
+				//preview();
+				clearInterval( intval );
+				
+			}
+			
+		}
+		
 		
     </script>
-	<link rel="stylesheet" href="./style.css">
+	
+	<link rel="stylesheet" href="./style.css"/>
 	
 </head>
 <body>
@@ -142,20 +249,31 @@
 	
 		<div class="left-panel">
 		
-			<h1>Envoy Email Builder</h1>
-
-			<form action="http://envoymails.com/" class="form" method="POST" id="form">
+			<div class="clearfix">
+				
+				<h1 class="">
+					<a class="" href="/">
+						<img src="/assets/logo/logo-white.svg" width="" height="" alt="Envoy"/>
+					</a>
+					Email Builder
+				</h1>
+				
+			</div>
 			
+			<form action="http://envoymails.com/" class="form" method="POST" id="form">
+				
+				<h2>Section 1</h2>
+				
 				<div class="col2">
 					
 					<label for="logoslink">Logo Source Link</label>
-					<input class="form_input" type="text" name="logoslink" id="logoslink" placeholder="https://...." value="https://envoy.com/images/logo-new.svg"/> 
+					<input class="form_input" type="text" name="logoslink" id="logoslink" data-preview-target="#logoslink" data-target-content="src" placeholder="https://...." value="https://envoy.com/images/logo-new.svg"/> 
 					
 				</div>
 				<div class="col2">
 					
 					<label for="logolink">Logo URL</label>
-					<input class="form_input" type="text" name="logolink" id="logolink" placeholder="https://...." value="https://envoy.com/"/> 
+					<input class="form_input" type="text" name="logolink" id="logolink" data-preview-target="#logolink" data-target-content="href" placeholder="https://...." value="https://envoy.com/"/> 
 					
 				</div>
 				
@@ -163,62 +281,281 @@
 				<div class="col2">
 				
 					<label for="tltxt">Top Left Text</label>
-					<input class="form_input" type="text" name="tltxt" id="tltxt" placeholder="Enter Letf Top Text" value="Stay healthy and productive"/>
+					<input class="form_input" type="text" name="tltxt" id="tltxt" data-preview-target="#tltxt" data-target-content="text" placeholder="Enter Letf Top Text" value="LOREM IPSUM SIT DOLOR
+"/>
 					
 				</div>
 				<div class="col2">
 					
 					<label for="headtxt">Header Text</label>
-					<input class="form_input" type="text" name="headtxt" id="headtxt" placeholder="Enter Header Text" value="Helping the world get back to work"/>
+					<input class="form_input" type="text" name="headtxt" id="headtxt" data-preview-target="#headtxt" data-target-content="text" placeholder="Enter Header Text" value="Lorem ipsum sit dolore et tu Brute"/>
 					
 				</div>
 				
 				<div class="col2">
 				
 					<label for="btntxt">Button Text</label>
-					<input class="form_input" type="text" name="btntxt" id="btntxt" placeholder="Enter Button Text" value="Read more.."/>
+					<input class="form_input" type="text" name="btntxt" id="btntxt" data-preview-target="#btntxt" data-target-content="text" placeholder="Enter Button Text" value="Read more.."/>
 				
 				</div>
 				<div class="col2">
 					
 					<label for="btnlink">Button URL</label>
-					<input class="form_input" type="text" name="btnlink" id="btnlink" placeholder="https://...." value="https://envoy.com/pricing/"/>
+					<input class="form_input" type="text" name="btnlink" id="btnlink" data-preview-target="#btnlink" data-target-content="href" placeholder="https://...." value="https://envoy.com/pricing/"/>
 				
 				</div>
 				
 				<div class="col2">
 				
 					<label for="p1txt">Pragraph 1 Text</label>
-					<textarea class="form_input" cols="30" rows="10" name="p1txt" id="p1txt" placeholder="Enter Paragraph Text 1">Join the thousands of companies that use Envoy to create safe workplaces where employees can stay healthy and productive.</textarea>
+					<textarea class="form_input" cols="30" rows="10" name="p1txt" id="p1txt" data-preview-target="#p1txt" data-target-content="html" placeholder="Enter Paragraph Text 1">Do eiusmod tempor incididunt ut labore et dolore magna et tu elit sit amit aliqua.</textarea>
 				
 				</div>
 				<div class="col2">
 					
 					<label for="p2txt">Pragraph 2 Text</label>
-					<textarea class="form_input" cols="30" rows="10" name="p2txt" id="p2txt" placeholder="Enter Paragraph Text 2">With Envoy Desks, you can empower your employees to reserve a desk in the office so they can keep a safe distance at work. This way you can keep your space flexible and germ-free.</textarea>
+					<textarea class="form_input" cols="30" rows="10" name="p2txt" id="p2txt" data-preview-target="#p2txt" data-target-content="html" placeholder="Enter Paragraph Text 2">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</textarea>
 				
+				</div>
+				
+				<div class="col2">
+					
+					<label for="p2txt">Pragraph 3 Text</label>
+					<textarea class="form_input" cols="30" rows="10" name="p2txt" id="p2txt" data-preview-target="#p3txt" data-target-content="html" placeholder="Enter Paragraph Text 2">Duis aute irure dolor in reprehenderit.</textarea>
+				
+				</div>
+				
+				
+				<div class="col1"><br/></div>
+				
+				
+				<h2 class="col1 mt-5">Section 2</h2>
+				
+				<div class="col2">
+					
+					<label for="s2b1headertxt">Blog 1: Header</label>
+					<input class="form_input mar-b-2" type="text" name="s2b1headertxt" id="s2b1headertxt" data-preview-target="#s2b1headertxt" data-target-content="html" placeholder="https://...." value="BLOG"/>
+				
+					<br/>
+					
+					<label for="s2b1headertxt">Blog 1: Lede</label>
+					<input class="form_input mar-b-2" type="text" name="s2b1ledetxt" id="s2b1ledetxt" data-preview-target="#s2b1ledetxt" data-target-content="text" placeholder="https://...." value="Ut emin ad minim"/>
+					
+					<br/>
+					
+					<label for="s2b1headertxt">Blog 1: Blog link</label>
+					<input class="form_input mar-b-2" type="text" name="s2b1headertxt" id="s2b1headertxt" data-preview-target="#s2b1headertxt" data-target-content="href" placeholder="https://...." value="https://envoy.com/pricing/"/>
+				
+				</div>
+				<div class="col2">
+					
+					<label for="s2b1ptxt">Blog 1: Paragraph</label>
+					<textarea class="form_input" cols="30" rows="10" name="s2b1ptxt" id="s2b1ptxt" data-preview-target="#s2b1ptxt" data-target-content="html" placeholder="Enter Paragraph Text 2">Do eiusmod tempor incididunt ut labore et dolore magna.</textarea>
+				
+				</div>
+				
+				
+				<div class="col1"><br/></div>
+				
+				
+				<div class="col2">
+					
+					<label for="s2b2headertxt">Blog 2: Header</label>
+					<input class="form_input mar-b-2" type="text" name="s2b2headertxt" id="s2b2headertxt" data-preview-target="#s2b2headertxt" data-target-content="text" placeholder="https://...." value="BLOG"/>
+				
+					<br/>					
+					
+					<label for="s2b2ledetxt">Blog 2: Lede</label>
+					<input class="form_input mar-b-2" type="text" name="s2b2ledetxt" id="s2b2ledetxt" data-preview-target="#s2b2ledetxt" data-target-content="text" placeholder="https://...." value="Ut emin ad minim venaim quis nostraud ex ea nisi"/>
+					
+					<br/>
+					
+					<label for="s2b2link">Blog 2: Blog link</label>
+					<input class="form_input mar-b-2" type="text" name="s2b2link" id="s2b2link" data-preview-target="#s2b2link" data-target-content="href" placeholder="https://...." value="https://envoy.com/pricing/"/>
+				
+				</div>
+				<div class="col2">
+					
+					<label for="s2b2ptxt">Blog 2: Paragraph</label>
+					<textarea class="form_input" cols="30" rows="10" name="s2b2ptxt" id="s2b2ptxt" data-preview-target="#s2b2ptxt" data-target-content="html" placeholder="Enter Paragraph Text 2">Do eiusmod tempor incididunt ut labore et dolore magna et tu elit sit amit aliqua.</textarea>
+				
+				</div>
+				
+				<div class="col1"><br/></div>
+				
+				
+				<div class="col2">
+					
+					<label for="s2b3headertxt">Blog 3: Header</label>
+					<input class="form_input mar-b-2 mar-b-2" type="text" name="s2b3headertxt" id="s2b3headertxt" data-preview-target="#s2b3headertxt" data-target-content="text" placeholder="https://...." value="BLOG"/>
+				
+					<br/>
+					
+					<label for="s2b3ledetxt">Blog 3: Lede</label>
+					<input class="form_input mar-b-2 mar-b-2" type="text" name="s2b3ledetxt" id="s2b3ledetxt" data-preview-target="#s2b3ledetxt" data-target-content="text" placeholder="https://...." value="Ut emin ad minim venaim quis nostraud ex ea nisi"/>
+					
+					<br/>
+					
+					<label for="s2b3link">Blog 3: Blog link</label>
+					<input class="form_input mar-b-2" type="text" name="s2b3link" id="s2b3link" data-preview-target="#s2b3link" data-target-content="href" placeholder="https://...." value="https://envoy.com/pricing/"/>
+				
+				</div>
+				<div class="col2">
+					
+					<label for="s2b3ptxt">Blog 3: Paragraph</label>
+					<textarea class="form_input" cols="30" rows="10" name="s2b3ptxt" id="s2b3ptxt" data-preview-target="#s2b3ptxt" data-target-content="html" placeholder="Enter Paragraph Text 2">Do eiusmod tempor incididunt ut labore et dolore magna et tu elit sit amit aliqua.</textarea>
+				
+				</div>
+				
+				<div class="col1"><br/></div>
+				
+				<h2>Section 3</h2>
+				
+				<div class="col1">
+					
+					<label for="s3headertxt">Header</label>
+					<input class="form_input mar-b-2" type="text" name="s3headertxt" id="s3headertxt" data-preview-target="#s3headertxt" data-target-content="text" placeholder="https://...." value="Lorem ipsum sit dolore et tu Brute minim"/>
+					
+				</div>
+				
+				<div class="col2">
+					
+					<label for="s3subheadertxt1">Sub-header 1</label>
+					<input class="form_input mar-b-2" type="text" name="s3subheadertxt1" id="s3subheadertxt1" data-preview-target="#s3subheadertxt1" data-target-content="text" placeholder="https://...." value="Ut emin ad minim venaim quis nostraud ex ea nisi laboris enim ex ut"/>
+					
+					<br/>
+					
+					<label for="s3ctalink1">Button Link 1</label>
+					<input class="form_input mar-b-2" type="text" name="s3ctalink1" id="s3ctalink1" data-preview-target="#s3ctalink1" data-target-content="href" placeholder="https://...." value="https://envoy.com/pricing/"/>
+					
+					<br/>
+					
+					<label for="s3ctatxt1">Button Text 1</label>
+					<input class="form_input" type="text" name="s3ctatxt1" id="s3ctatxt1" data-preview-target="#s3ctatxt1" data-target-content="text" placeholder="https://...." value="Read more"/>
+					
+					
+				</div>
+				<div class="col2">
+					
+					<label for="s3p1txt">Paragraph 1</label>
+					<textarea class="form_input" cols="30" rows="10" name="s3p1txt" id="s3p1txt" data-preview-target="#s3p1txt" data-target-content="html" placeholder="Enter Paragraph Text 2">Ut emin ad minim venaim quis nostraud ex ea nisi laboris enim ex ut</textarea>
+				
+				</div>
+				
+				
+				<div class="col2">
+					
+					<label for="s3subheadertxt2">Sub-header 2</label>
+					<input class="form_input mar-b-2" type="text" name="s3subheadertxt2" id="s3subheadertxt2" data-preview-target="#s3subheadertxt2" data-target-content="text" placeholder="https://...." value="Ut emin ad minim venaim quis nostraud ex ea nisi laboris enim ex ut"/>
+					
+					<br/>
+					
+					<label for="s3ctalink2">Button Link 2</label>
+					<input class="form_input mar-b-2" type="text" name="s3ctalink2" id="s3ctalink2" data-preview-target="#s3ctalink2" data-target-content="href" placeholder="https://...." value="https://envoy.com/pricing/"/>
+					
+					<br/>
+					
+					<label for="s3ctatxt2">Button Text 2</label>
+					<input class="form_input" type="text" name="s3ctatxt2" id="s3ctatxt2" data-preview-target="#s3ctatxt2" data-target-content="text" placeholder="https://...." value="Read more"/>
+					
+					
+				</div>
+				<div class="col2">
+					
+					<label for="s3p2txt">Paragraph 2</label>
+					<textarea class="form_input" cols="30" rows="10" name="s3p2txt" id="s3p2txt" data-preview-target="#s3p2txt" data-target-content="html" placeholder="Enter Paragraph Text 2">Do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.</textarea>
+				
+				</div>
+				
+				
+				<div class="col2">
+					
+					<label for="s3subheadertxt3">Sub-header 2</label>
+					<input class="form_input mar-b-2" type="text" name="s3subheadertxt3" id="s3subheadertxt3" data-preview-target="#s3subheadertxt3" data-target-content="text" placeholder="https://...." value="Ut emin ad minim venaim quis nostraud ex ea nisi laboris enim ex ut"/>
+					
+					<br/>
+					
+					<label for="s3ctalink3">Button Link 2</label>
+					<input class="form_input mar-b-2" type="text" name="s3ctalink3" id="s3ctalink3" data-preview-target="#s3ctalink3" data-target-content="href" placeholder="https://...." value="https://envoy.com/pricing/"/>
+					
+					<br/>
+					
+					<label for="s3ctatxt3">Button Text 2</label>
+					<input class="form_input" type="text" name="s3ctatxt3" id="s3ctatxt3" data-preview-target="#s3ctatxt3" data-target-content="text" placeholder="https://...." value="Read more"/>
+					
+					
+				</div>
+				<div class="col2">
+					
+					<label for="s3p3txt">Paragraph 2</label>
+					<textarea class="form_input" cols="30" rows="10" name="s3p3txt" id="s3p3txt" data-preview-target="#s3p3txt" data-target-content="html" placeholder="Enter Paragraph Text 2">Do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.</textarea>
+				
+				</div>
+				
+				
+				<div class="col1"><br/></div>
+				
+				
+				
+				<h2>Section 4</h2>
+				
+				<div class="col2">
+					
+					<label for="s4herosurl">Hero Image Source Link</label>
+					<input class="form_input" type="text" name="s4herosurl" id="s4herosurl" data-preview-target="#s4herosurl" data-target-content="src" placeholder="https://...." value="https://media.giphy.com/media/26gYBXSdjyCiBZrgc/source.gif"/> 
+					
+				</div>
+				<div class="col2">
+					
+					<label for="s4herolink">Hero Source Link</label>
+					<input class="form_input" type="text" name="s4herolink" id="s4herolink" data-preview-target="#s4herolink" data-target-content="href" placeholder="https://...." value="https://envoy.com/"/> 
+					
+				</div>
+				
+				<div class="col2">
+					
+					<label for="s4ledetxt">Lede Text</label>
+					<input class="form_input mar-b-2" type="text" name="s4ledetxt" id="s4ledetxt" data-preview-target="#s4ledetxt" data-target-content="text" placeholder="https://...." value="FEATURE"/> 
+					
+					<br/>
+					
+					<label for="s4btntxt">Button Text</label>
+					<input class="form_input mar-b-2" type="text" name="s4btntxt" id="s4btntxt" data-preview-target="#s4btntxt" data-target-content="text" placeholder="https://...." value="Read more"/> 
+					
+					<br/>
+					
+					<label for="s4btnlink">Button Link</label>
+					<input class="form_input" type="text" name="s4btnlink" id="s4btnlink" data-preview-target="#s4btnlink" data-target-content="href" placeholder="https://...." value="https://envoy.com/"/> 
+					
+				</div>
+				<div class="col2">
+					
+					<label for="s4ptxt">Paragraph Text</label>
+					<textarea class="form_input" cols="30" rows="10" name="s4ptxt" id="s4ptxt"  data-preview-target="#s4ptxt" data-target-content="html" placeholder="Enter Paragraph Text 2">Ut enim ad minim venaim quis nostraud ex ea laboris nisi ut aliquip</textarea>
+					
 				</div>
 				
 				<div class="col2">
 				
 					<label for="blogoslink">Bottom Logo Source Link</label>
-					<input class="form_input" type="text" name="blogoslink" id="blogoslink" placeholder="https://...." value="https://envoy.com/images/products/protect/integrations/kisi.svg"/>
+					<input class="form_input" type="text" name="blogoslink" id="blogoslink" data-preview-target="#blogoslink" data-target-content="src" placeholder="https://...." value="https://envoy-email.github.io/images/logo_icon_new.png"/>
 					
 				</div>
 				<div class="col2">
 					
 					<label for="blogolink">Bottom Logo URL</label>
-					<input class="form_input" type="text" name="blogolink" id="blogolink" placeholder="https://...." value="https://envoy.com/"/>
+					<input class="form_input" type="text" name="blogolink" id="blogolink" data-preview-target="#blogolink" data-target-content="href" placeholder="https://...." value="https://envoy.com/"/>
 					
 				</div>
+				
+				<div class="col1"><br/></div>
 				
 				<div class="col1">
 					
 					<button type="button" class="action_button">Export to HTML File</button>
-					
-					<!--<button type="submit" name="submit" id="submit" value="preview">Export to HTML File</button>-->
 				
 				</div>
+				
 			</form>
 		</div>
 		
