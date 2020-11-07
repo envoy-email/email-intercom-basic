@@ -3,7 +3,9 @@
 *:after{
 	box-sizing: border-box;
 }
-
+html{
+	scroll-behavior: smooth;
+}
 body{
 	font-size: 14px;
 	font-weight: 400;
@@ -178,4 +180,8 @@ input, textarea{
 	
 	100%{ transform: translate(-50%,-50%) rotate(360deg);}
 	
+}
+
+.mar-b-2{
+	margin-bottom: 14px;
 }
